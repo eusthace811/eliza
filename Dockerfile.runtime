@@ -1,0 +1,15 @@
+# Use the pre-built Eliza image
+FROM gcr.io/noid-one-development/noid-eliza:latest
+
+# Set the working directory
+WORKDIR /app
+
+# Copy character JSON and environment variables
+COPY characters/character.json /app/characters/character.json
+COPY .env /app/.env
+
+# Expose port 8080 for Google Cloud Run
+EXPOSE 8080 5173
+
+# Run both the server and client concurrently
+CMD ["pnpm", "dlx", "concurrently", "pnpm start --characters=characters/character.json", "pnpm start:client"]
