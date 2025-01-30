@@ -11,9 +11,6 @@ RUN npm install -g pnpm@9.4.0 && \
 # Set Python 3 as the default python
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
-# Install wait-on
-RUN pnpm add -g wait-on
-
 # Set the working directory
 WORKDIR /app
 
@@ -41,7 +38,8 @@ RUN npm install -g pnpm@9.4.0 && \
     apt-get update && \
     apt-get install -y git python3 && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    pnpm add -g wait-on
 
 WORKDIR /app
 
