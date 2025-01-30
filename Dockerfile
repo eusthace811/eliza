@@ -39,7 +39,7 @@ RUN npm install -g pnpm@9.4.0 && \
     apt-get install -y git python3 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    pnpm add -g wait-on
+    pnpm add wait-on
 
 WORKDIR /app
 

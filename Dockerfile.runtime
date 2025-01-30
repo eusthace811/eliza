@@ -12,4 +12,5 @@ COPY .env /app/.env
 EXPOSE 8080 5173
 
 # Run both the server and client concurrently
-CMD ["pnpm", "dlx", "concurrently", "pnpm start --characters=characters/character.json", "wait-on tcp:3000 && pnpm start:client"]
+CMD ["pnpm", "dlx", "concurrently", "pnpm start --characters=characters/character.json", "pnpm exec wait-on tcp:3000 && pnpm start:client"]
+
