@@ -1,62 +1,69 @@
-# Use a specific Node.js version for better reproducibility
+# Use a minimal but compatible base image
 FROM node:23.3.0-slim AS builder
 
-# Install pnpm globally and install necessary build tools
-RUN npm install -g pnpm@9.4.0 && \
-    apt-get update && \
-    apt-get install -y git python3 make g++ && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Install necessary build tools
+RUN apt-get update && apt-get install -y \
+    git python3 make g++ \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set Python 3 as the default python
-RUN ln -s /usr/bin/python3 /usr/bin/python
-
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and other configuration files
+# Install PNPM globally
+RUN npm install -g pnpm@9.4.0
+
+# Copy package-related files first
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc turbo.json ./
 
-# Copy the rest of the application code
+# Copy the full source code
 COPY agent ./agent
 COPY client ./client
 COPY packages ./packages
 COPY scripts ./scripts
 COPY characters ./characters
 
-# Install root dependencies and build the project
-RUN pnpm install -r --no-frozen-lockfile \
-    && pnpm build-docker \
+# Install dependencies **only for root and client**
+RUN pnpm install -r --frozen-lockfile
+
+# Build the project and prune unnecessary files
+RUN pnpm build-docker \
     && pnpm prune --prod
 
 
-# Create a new stage for the final image
+# Final runtime image
 FROM node:23.3.0-slim
 
-# Install runtime dependencies if needed
-RUN npm install -g pnpm@9.4.0 && \
-    apt-get update && \
-    apt-get install -y git python3 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    pnpm add wait-on
+# Install only necessary runtime dependencies
+RUN apt-get update && apt-get install -y git python3 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
+# Create a non-root user for security
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+
+# Set working directory
 WORKDIR /app
 
-# Copy built artifacts and production dependencies from the builder stage
+# Copy production files
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/pnpm-workspace.yaml ./
 COPY --from=builder /app/.npmrc ./
 COPY --from=builder /app/turbo.json ./
 COPY --from=builder /app/node_modules ./node_modules
+
+# Copy only necessary built application files
 COPY --from=builder /app/agent ./agent
 COPY --from=builder /app/client ./client
 COPY --from=builder /app/packages ./packages
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/characters ./characters
 
+# Switch to non-root user
+USER appuser
+
 # Expose necessary ports
 EXPOSE 8080 5173
 
-# Set the command to run the application
+# Start the application
 CMD ["pnpm", "start"]
