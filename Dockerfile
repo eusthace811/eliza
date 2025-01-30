@@ -11,6 +11,9 @@ RUN npm install -g pnpm@9.4.0 && \
 # Set Python 3 as the default python
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
+# Install wait-on
+RUN pnpm add -g wait-on
+
 # Set the working directory
 WORKDIR /app
 
@@ -24,11 +27,11 @@ COPY packages ./packages
 COPY scripts ./scripts
 COPY characters ./characters
 
-# Install dependencies and build the project
-RUN pnpm install \
-    && pnpm --filter ./client install \
+# Install root dependencies and build the project
+RUN pnpm install -r --no-frozen-lockfile \
     && pnpm build-docker \
     && pnpm prune --prod
+
 
 # Create a new stage for the final image
 FROM node:23.3.0-slim
