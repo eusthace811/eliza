@@ -148,10 +148,10 @@ You set which model to use inside the character JSON file
     Once the client is running, you'll see a message like this:
 
 ```
-➜  Local:   http://localhost:5173/
+➜  Local:   http://localhost:8080/
 ```
 
-Simply click the link or open your browser to `http://localhost:5173/`. You'll see the chat interface connect to the system, and you can begin interacting with your character.
+Simply click the link or open your browser to `http://localhost:8080/`. You'll see the chat interface connect to the system, and you can begin interacting with your character.
 
 ## Platform Integration
 

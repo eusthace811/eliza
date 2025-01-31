@@ -55,11 +55,11 @@ if ! pnpm start:client; then
 fi
 
 # Open webpage
-echo "\033[1mOpening webpage at http://localhost:5173...\033[0m"
+echo "\033[1mOpening webpage at http://localhost:8080...\033[0m"
 if command -v xdg-open >/dev/null 2>&1; then
-    xdg-open "http://localhost:5173"
+    xdg-open "http://localhost:8080"
 elif command -v open >/dev/null 2>&1; then
-    open "http://localhost:5173"
+    open "http://localhost:8080"
 else
-    echo "\033[1;33mPlease open http://localhost:5173 in your browser.\033[0m"
+    echo "\033[1;33mPlease open http://localhost:8080 in your browser.\033[0m"
 fi

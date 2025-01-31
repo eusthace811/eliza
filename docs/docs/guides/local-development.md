@@ -133,7 +133,7 @@ pnpm start:client --host
 ```
 
 Look for the message:
-`  ➜  Local:   http://localhost:5173/`
+`  ➜  Local:   http://localhost:8080/`
 Click on that link or open a browser window to that location. Once you do that you should see the chat interface connect with the system and you can start interacting with your character.
 
 
