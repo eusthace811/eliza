@@ -40,9 +40,6 @@ RUN npm install -g pnpm@9.4.0 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user for security
-RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
-
 WORKDIR /app
 
 # Copy built artifacts and production dependencies from the builder stage
@@ -56,9 +53,6 @@ COPY --from=builder /app/client ./client
 COPY --from=builder /app/packages ./packages
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/characters ./characters
-
-# Switch to non-root user
-USER appuser
 
 # Expose necessary ports
 EXPOSE 8080 5173

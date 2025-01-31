@@ -1,12 +1,18 @@
 # Use the pre-built Eliza image
 FROM gcr.io/noid-one-development/noid-eliza:latest
 
+# Create a non-root user for security
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+
 # Set the working directory
 WORKDIR /app
 
 # Copy character JSON and environment variables
 COPY characters/character.json /app/characters/character.json
 COPY .env /app/.env
+
+# Switch to non-root user
+USER appuser
 
 # Expose port 8080 for Google Cloud Run
 EXPOSE 8080 5173
