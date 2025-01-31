@@ -4,6 +4,9 @@ import viteCompression from "vite-plugin-compression";
 
 // https://vite.dev/config/
 export default defineConfig({
+    server: {
+        port: 8080,
+    },
     plugins: [
         react(),
         viteCompression({
