@@ -1,6 +1,9 @@
 import { type UUID, type Character } from "@elizaos/core";
 
-const BASE_URL = "http://localhost:3000";
+const SERVER_PORT = process.env.SERVER_PORT || 3000;
+const BASE_URL = process.env.GRAPH_ID
+  ? `https://${process.env.GRAPH_ID}.europe-west2.run.app:${SERVER_PORT}`
+  : `http://localhost:${SERVER_PORT}`;
 
 const fetcher = async ({
     url,
