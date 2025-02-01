@@ -60,7 +60,14 @@ export function createApiRouter(
         allowedHeaders: ["Content-Type", "Authorization"]
     }));
 
-    router.options("*", cors()); // Handle preflight requests
+    router.options("*", (req, res) => {
+        res.set({
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        });
+        res.status(200).end();
+    });
 
     router.use(bodyParser.json());
     router.use(bodyParser.urlencoded({ extended: true }));
