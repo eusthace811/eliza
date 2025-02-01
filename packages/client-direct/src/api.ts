@@ -53,14 +53,25 @@ export function createApiRouter(
 ) {
     const router = express.Router();
 
-    // router.use(cors());
-     router.use(cors({
-        origin: "*", // Allow all origins (change this for security)
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"]
-    }));
+    const allowedOrigin = "*";
 
-    router.options("*", cors()); // Handle preflight requests
+    // router.use(cors());
+    router.use((req, res, next) => {
+        res.header("Access-Control-Allow-Origin", allowedOrigin);
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        next();
+    });
+
+    // Handle preflight requests
+    router.options("*", (req, res) => {
+        res.set({
+            "Access-Control-Allow-Origin": allowedOrigin,
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        });
+        res.status(200).end();
+    });
 
     router.use(bodyParser.json());
     router.use(bodyParser.urlencoded({ extended: true }));
@@ -71,14 +82,17 @@ export function createApiRouter(
     );
 
     router.get("/", (req, res) => {
+        res.set("Access-Control-Allow-Origin", allowedOrigin);
         res.send("Welcome, this is the REST API!");
     });
 
     router.get("/hello", (req, res) => {
+        res.set("Access-Control-Allow-Origin", allowedOrigin);
         res.json({ message: "Hello World!" });
     });
 
     router.get("/agents", (req, res) => {
+        res.set("Access-Control-Allow-Origin", allowedOrigin);
         const agentsList = Array.from(agents.values()).map((agent) => ({
             id: agent.agentId,
             name: agent.character.name,
@@ -88,6 +102,7 @@ export function createApiRouter(
     });
 
     router.get("/agents/:agentId", (req, res) => {
+        res.set("Access-Control-Allow-Origin", allowedOrigin);
         const { agentId } = validateUUIDParams(req.params, res) ?? {
             agentId: null,
         };
@@ -112,6 +127,7 @@ export function createApiRouter(
     });
 
     router.post("/agents/:agentId/set", async (req, res) => {
+        res.set("Access-Control-Allow-Origin", allowedOrigin);
         const { agentId } = validateUUIDParams(req.params, res) ?? {
             agentId: null,
         };
@@ -151,6 +167,7 @@ export function createApiRouter(
     });
 
     router.get("/agents/:agentId/channels", async (req, res) => {
+        res.set("Access-Control-Allow-Origin", allowedOrigin);
         const { agentId } = validateUUIDParams(req.params, res) ?? {
             agentId: null,
         };
@@ -181,6 +198,7 @@ export function createApiRouter(
     });
 
     router.get("/agents/:agentId/:roomId/memories", async (req, res) => {
+        res.set("Access-Control-Allow-Origin", allowedOrigin);
         const { agentId, roomId } = validateUUIDParams(req.params, res) ?? {
             agentId: null,
             roomId: null,
@@ -246,6 +264,7 @@ export function createApiRouter(
     });
 
     router.get("/tee/agents", async (req, res) => {
+        res.set("Access-Control-Allow-Origin", allowedOrigin);
         try {
             const allAgents = [];
 
@@ -273,6 +292,7 @@ export function createApiRouter(
     });
 
     router.get("/tee/agents/:agentId", async (req, res) => {
+        res.set("Access-Control-Allow-Origin", allowedOrigin);
         try {
             const agentId = req.params.agentId;
             const agentRuntime = agents.get(agentId);
@@ -302,6 +322,7 @@ export function createApiRouter(
         "/tee/logs",
         async (req: express.Request, res: express.Response) => {
             try {
+                res.set("Access-Control-Allow-Origin", allowedOrigin);
                 const query = req.body.query || {};
                 const page = parseInt(req.body.page) || 1;
                 const pageSize = parseInt(req.body.pageSize) || 10;
