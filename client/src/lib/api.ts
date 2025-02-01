@@ -18,6 +18,7 @@ const fetcher = async ({
 }) => {
     const options: RequestInit = {
         method: method ?? "GET",
+        mode: "cors",
         headers: headers
             ? headers
             : {
