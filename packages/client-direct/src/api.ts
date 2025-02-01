@@ -53,7 +53,7 @@ export function createApiRouter(
 ) {
     const router = express.Router();
 
-    // router.use(cors());
+    router.use(cors());
     router.use((req, res, next) => {
         res.header("Access-Control-Allow-Origin", "*"); // Allow any origin
         res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
