@@ -53,13 +53,14 @@ export function createApiRouter(
 ) {
     const router = express.Router();
 
-    router.use(cors());
-
-    router.use(cors({
+    // router.use(cors());
+     router.use(cors({
         origin: "*", // Allow all origins (change this for security)
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"]
     }));
+
+    router.options("*", cors()); // Handle preflight requests
 
     router.use(bodyParser.json());
     router.use(bodyParser.urlencoded({ extended: true }));
