@@ -116,7 +116,14 @@ export class DirectClient {
     constructor() {
         elizaLogger.log("DirectClient constructor");
         this.app = express();
-        this.app.use(cors());
+        // this.app.use(cors());
+        this.app.use(cors({
+            origin: "*", // Allow all origins (change this for security)
+            methods: ["GET", "POST", "PUT", "DELETE"],
+            allowedHeaders: ["Content-Type", "Authorization"]
+        }));
+
+        this.app.options("*", cors()); // Handle preflight requests
         this.agents = new Map();
 
         this.app.use(bodyParser.json());
