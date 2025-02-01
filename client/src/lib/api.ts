@@ -1,6 +1,10 @@
 import type { UUID, Character } from "@elizaos/core";
 
-const BASE_URL = `http://localhost:${import.meta.env.VITE_SERVER_PORT}`;
+const SERVER_PORT = import.meta.env.VITE_SERVER_PORT || 3000;
+const BASE_URL = import.meta.env.VITE_GRAPH_ID
+  ? `https://api-${import.meta.env.VITE_GRAPH_ID}.europe-west2.run.app:${SERVER_PORT}`
+  : `http://localhost:${SERVER_PORT}`;
+
 
 const fetcher = async ({
     url,
