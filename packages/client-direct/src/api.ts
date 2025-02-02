@@ -54,25 +54,6 @@ export function createApiRouter(
     const router = express.Router();
 
     router.use(cors());
-    router.use((req, res, next) => {
-        res.header("Access-Control-Allow-Origin", "*"); // Allow any origin
-        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        res.header("Access-Control-Allow-Credentials", "true");
-        next();
-    });
-
-    // Explicitly handle preflight (OPTIONS) requests
-    router.options("*", (req, res) => {
-        res.set({
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-            "Access-Control-Allow-Credentials": "true"
-        });
-        res.status(200).end();
-    });
-
     router.use(bodyParser.json());
     router.use(bodyParser.urlencoded({ extended: true }));
     router.use(
