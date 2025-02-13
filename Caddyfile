@@ -1,5 +1,18 @@
+{
+    debug
+    log
+    http_port 8080
+    auto_https off
+}
+
 :8080 {
-    reverse_proxy /api 0.0.0.0:3000
-    reverse_proxy /client 0.0.0.0:5173
-    reverse_proxy /* 0.0.0.0:5173
+    handle /api/* {
+        reverse_proxy 0.0.0.0:3000
+    }
+    handle /client/* {
+        reverse_proxy 0.0.0.0:5173
+    }
+    handle /* {
+        reverse_proxy 0.0.0.0:5173
+    }
 }
