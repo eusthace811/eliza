@@ -8,8 +8,9 @@ WORKDIR /app
 COPY characters/character.json /app/characters/character.json
 COPY .env /app/.env
 
-# Expose port 3000 for Google Cloud Run
-EXPOSE 3000
+# Expose port for Caddy proxy
+EXPOSE 8080
 
 # Run both the server and client concurrently
-CMD ["sh", "-c", "pnpm start --characters=characters/character.json"]
+# CMD ["sh", "-c", "pnpm start --characters=characters/character.json"]
+CMD ["sh", "-c", "pnpm start --characters=characters/character.json & pnpm start:client & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"]
