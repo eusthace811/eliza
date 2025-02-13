@@ -16,8 +16,8 @@
 		health_status 2xx
 	}
 
-	handle_path /client/* {
-		rewrite * /{path.*}
+	handle_path /client* {
+		rewrite * /*
 		reverse_proxy localhost:5173 {
 			lb_retries 3
 			health_uri /
