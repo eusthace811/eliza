@@ -1,15 +1,17 @@
 #!/bin/sh
+set -e  # Exit if any command fails
 
 cd /app || exit
 
-# Start backend service in the background
 echo "Starting backend service..."
 pnpm start --characters=characters/character.json &
 
-# Start frontend client in the background
+sleep 5  # Ensure backend starts
+
 echo "Starting frontend service..."
 pnpm start:client --host &
 
-# Start Caddy immediately
+sleep 5  # Ensure frontend starts
+
 echo "Starting Caddy..."
-caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
