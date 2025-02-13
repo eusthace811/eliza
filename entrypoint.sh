@@ -1,6 +1,5 @@
 #!/bin/sh
 
-#!/bin/sh
 cd /app || exit
 
 # Start backend service in the background
