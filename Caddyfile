@@ -6,12 +6,20 @@
 }
 
 :8080 {
-    handle /api/* {
+    log {
+        output stdout
+        format json
+        level info
+    }
+
+    handle_path /api/* {
         reverse_proxy 0.0.0.0:3000
     }
-    handle /client/* {
+
+    handle_path /client/* {
         reverse_proxy 0.0.0.0:5173
     }
+
     handle /* {
         reverse_proxy 0.0.0.0:5173
     }
