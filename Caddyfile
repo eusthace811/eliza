@@ -16,13 +16,9 @@
 		health_status 2xx
 	}
 
-	handle_path /client* {
-		reverse_proxy localhost:5173 {
-			lb_retries 3
-			health_uri /
-			health_interval 5s
-			health_timeout 1m
-			health_status 2xx
-		}
-	}
+	handle /client/* {
+        root * /app/client/dist  # Serve the built frontend
+        file_server
+        try_files {path} /index.html
+    }
 }
