@@ -83,7 +83,7 @@ COPY --from=builder /app/characters ./characters
 COPY Caddyfile /etc/caddy/Caddyfile
 
 # Expose Caddy's port
-# EXPOSE 8080
+EXPOSE 8080
 
 # Start services: backend, frontend, and Caddy
 # CMD pnpm start & pnpm start:client & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile

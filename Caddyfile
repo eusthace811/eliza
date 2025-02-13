@@ -1,4 +1,5 @@
 :8080 {
     reverse_proxy /api localhost:3000
     reverse_proxy /client localhost:5173
+    reverse_proxy /* localhost:5173
 }
