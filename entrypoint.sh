@@ -6,7 +6,7 @@ pnpm start --characters=characters/character.json &
 
 # Start frontend client in the background
 echo "Starting frontend service..."
-pnpm start:client &
+pnpm start:client --host &
 
 # Start Caddy immediately
 echo "Starting Caddy..."
