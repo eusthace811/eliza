@@ -17,8 +17,17 @@
 	}
 
 	handle /client/* {
-        root * /app/client/dist  # Serve the built frontend
-        file_server
-        try_files {path} /index.html
-    }
+		root * /app/client/dist # Serve built frontend
+		file_server
+
+		@static {
+			path /client/assets/*
+			path /client/*.js
+			path /client/*.css
+			path /client/*.ts
+			path /client/*.tsx
+		}
+
+		try_files {path} /index.html
+	}
 }
