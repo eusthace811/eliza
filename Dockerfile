@@ -53,13 +53,14 @@ RUN pnpm run build-docker && pnpm prune --prod
 # Final runtime image
 FROM node:23.3.0-slim
 
-# Install runtime dependencies
+# Install runtime dependencies and Caddy
 RUN npm install -g pnpm@9.4.0 && \
     apt-get update && \
     apt-get install -y \
         git \
         python3 \
-        ffmpeg && \
+        ffmpeg \
+        caddy && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -78,9 +79,11 @@ COPY --from=builder /app/packages ./packages
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/characters ./characters
 
-# Expose necessary ports
-# EXPOSE 3000 5173
+# Copy Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
 
-# Command to start the application
-# CMD ["sh", "-c", "pnpm start & pnpm start:client"]
-CMD ["sh"]
+# Expose Caddy's port
+EXPOSE 8080
+
+# Start services: backend, frontend, and Caddy
+CMD pnpm start & pnpm start:client & caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
