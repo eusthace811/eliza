@@ -1,12 +1,14 @@
+{
+	auto_https off
+}
+
 :8080 {
     log {
         output stdout
-        format json
-        level info
+		level debug
     }
 
-    reverse_proxy /api/* 127.0.0.1:3000 {
-		rewrite /api/* /{path}
+    reverse_proxy /agents/* 0.0.0.0:3000 {
         lb_retries 3
         health_uri /
         health_interval 5s
@@ -14,7 +16,7 @@
         health_status 2xx
     }
 
-    reverse_proxy /client/* 127.0.0.1:5173 {
+    reverse_proxy /client/* 0.0.0.0:5173 {
 		rewrite /client/* /{path}
         lb_retries 3
         health_uri /
