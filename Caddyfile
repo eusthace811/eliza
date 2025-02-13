@@ -5,7 +5,7 @@
         level info
     }
 
-    reverse_proxy /api/* localhost:3000 {
+    reverse_proxy /api/* 0.0.0.0:3000 {
         lb_retries 3
         health_uri /
         health_interval 5s
@@ -13,7 +13,7 @@
         health_status 2xx
     }
 
-    reverse_proxy /client/* localhost:5173 {
+    reverse_proxy /client/* 0.0.0.0:5173 {
         lb_retries 3
         health_uri /
         health_interval 5s
