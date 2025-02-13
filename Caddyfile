@@ -13,14 +13,23 @@
     }
 
     handle_path /api/* {
-        reverse_proxy 0.0.0.0:3000
+        reverse_proxy 0.0.0.0:3000 {
+            retry 10
+            health_timeout 5s
+        }
     }
 
     handle_path /client/* {
-        reverse_proxy 0.0.0.0:5173
+        reverse_proxy 0.0.0.0:5173 {
+            retry 10
+            health_timeout 5s
+        }
     }
 
     handle /* {
-        reverse_proxy 0.0.0.0:5173
+        reverse_proxy 0.0.0.0:5173 {
+            retry 10
+            health_timeout 5s
+        }
     }
 }
