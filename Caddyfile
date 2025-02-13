@@ -15,10 +15,8 @@
     handle_path /api/* {
         reverse_proxy {
             to localhost:3000
-
             lb_policy first
             lb_retries 3
-
             health_uri /
             health_interval 5s
             health_timeout 1m
@@ -29,10 +27,8 @@
     handle_path /client/* {
         reverse_proxy {
             to localhost:5173
-
             lb_policy first
             lb_retries 3
-
             health_uri /
             health_interval 5s
             health_timeout 1m
