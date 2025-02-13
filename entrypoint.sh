@@ -6,7 +6,7 @@ cd /app || exit
 echo "Starting backend service..."
 pnpm start --characters=characters/character.json &
 
-sleep 30
+sleep 60
 
 echo "Starting frontend service..."
 pnpm start:client --host &
