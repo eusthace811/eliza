@@ -2,7 +2,7 @@ import { type UUID, type Character } from "@elizaos/core";
 
 const SERVER_PORT = import.meta.env.VITE_SERVER_PORT || 3000;
 const BASE_URL = import.meta.env.VITE_GRAPH_ID
-  ? `https://e-${import.meta.env.VITE_GRAPH_ID}.europe-west2.run.app/api/`
+  ? `https://e-${import.meta.env.VITE_GRAPH_ID}.europe-west2.run.app/api`
   : `http://localhost:${SERVER_PORT}`;
 
 const fetcher = async ({
