@@ -17,7 +17,7 @@
 	}
 
 	handle /client/* {
-		root * /app/client/dist # Serve built frontend
+		root * /app/client/dist
 		file_server
 
 		@static {
@@ -26,6 +26,14 @@
 			path /client/*.css
 			path /client/*.ts
 			path /client/*.tsx
+		}
+
+		# Add proper MIME types for JavaScript modules and TypeScript files
+		header @static Content-Type {
+			*.js "application/javascript"
+			*.mjs "application/javascript"
+			*.ts "application/javascript"
+			*.tsx "application/javascript"
 		}
 
 		try_files {path} /index.html
