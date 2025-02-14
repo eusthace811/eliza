@@ -17,7 +17,6 @@
 	}
 
 	handle /client/* {
-		root * /app/client/dist
 		reverse_proxy localhost:5173 {
 			lb_retries 3
 			health_uri /
@@ -25,7 +24,5 @@
 			health_timeout 1m
 			health_status 2xx
 		}
-		file_server
-		try_files {path} /index.html
 	}
 }
