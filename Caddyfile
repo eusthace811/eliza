@@ -18,22 +18,21 @@
 
 	handle /client/* {
 		root * /app/client/dist
-		file_server
-
-		@static {
-			path /client/assets/*
-			path /client/*.js
-			path /client/*.css
-			path /client/*.ts
-			path /client/*.tsx
-		}
-
-		# Add proper MIME types for JavaScript modules and TypeScript files
-		header @static Content-Type {
-			*.js "application/javascript"
-			*.mjs "application/javascript"
-			*.ts "application/javascript"
-			*.tsx "application/javascript"
+		file_server browse {
+			mime_types {
+				.js application/javascript
+				.css text/css
+				.png image/png
+				.jpg image/jpeg
+				.svg image/svg+xml
+				.woff application/font-woff
+				.woff2 application/font-woff2
+				.ttf application/font-ttf
+				.eot application/vnd.ms-fontobject
+				.ico image/x-icon
+				.html text/html
+				.webmanifest application/json
+			}
 		}
 
 		try_files {path} /index.html
