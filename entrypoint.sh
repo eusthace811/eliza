@@ -6,12 +6,12 @@ cd /app || exit
 echo "Starting frontend service..."
 pnpm start:client --host &
 
-sleep 5
+sleep 10
 
 echo "Starting backend service..."
 pnpm start --characters=characters/character.json &
 
-sleep 5
+sleep 10
 
 echo "Starting Caddy..."
 exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
