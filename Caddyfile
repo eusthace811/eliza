@@ -18,23 +18,14 @@
 
 	handle /client/* {
 		root * /app/client/dist
-		file_server browse {
-			mime_types {
-				.js application/javascript
-				.css text/css
-				.png image/png
-				.jpg image/jpeg
-				.svg image/svg+xml
-				.woff application/font-woff
-				.woff2 application/font-woff2
-				.ttf application/font-ttf
-				.eot application/vnd.ms-fontobject
-				.ico image/x-icon
-				.html text/html
-				.webmanifest application/json
-			}
+		reverse_proxy localhost:5173 {
+			lb_retries 3
+			health_uri /
+			health_interval 5s
+			health_timeout 1m
+			health_status 2xx
 		}
-
+		file_server
 		try_files {path} /index.html
 	}
 }
